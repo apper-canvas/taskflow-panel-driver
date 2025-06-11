@@ -12,23 +12,11 @@ import TaskHeader from '@/components/organisms/TaskHeader';
 import ApperIcon from '@/components/ApperIcon';
 import Button from '@/components/atoms/Button';
 
-const HomePage = () => {
+// Custom hook for task operations
+const useTaskOperations = () => {
   const [tasks, setTasks] = useState([]);
   const [taskLists, setTaskLists] = useState([]);
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [filters, setFilters] = useState({
-    status: 'active',
-    priority: [],
-    dateRange: { start: null, end: null },
-    listIds: []
-  });
   const [loading, setLoading] = useState(true);
-  const [draggedTask, setDraggedTask] = useState(null);
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   const loadData = async () => {
     setLoading(true);
@@ -96,6 +84,23 @@ const HomePage = () => {
     }
   };
 
+  return {
+    tasks,
+    setTasks,
+    taskLists,
+    loading,
+    loadData,
+    handleQuickAdd,
+    handleTaskComplete,
+    handleTaskUpdate,
+    handleTaskDelete
+  };
+};
+
+// Custom hook for drag and drop functionality
+const useDragAndDrop = (tasks, setTasks) => {
+  const [draggedTask, setDraggedTask] = useState(null);
+
   const handleDragStart = (task) => {
     setDraggedTask(task);
   };
@@ -120,6 +125,19 @@ const HomePage = () => {
     setDraggedTask(null);
   };
 
+  return {
+    draggedTask,
+    handleDragStart,
+    handleDragEnd,
+    handleDrop
+  };
+};
+
+// Custom hook for modal state management
+const useTaskModal = (handleQuickAdd, handleTaskUpdate) => {
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const openTaskModal = (task = null) => {
     setSelectedTask(task);
     setIsModalOpen(true);
@@ -142,6 +160,24 @@ const HomePage = () => {
       // Error handling is done in the respective functions
     }
   };
+
+  return {
+    selectedTask,
+    isModalOpen,
+    openTaskModal,
+    closeTaskModal,
+    handleModalSave
+  };
+};
+
+// Custom hook for task filtering and statistics
+const useTaskFilters = (tasks) => {
+  const [filters, setFilters] = useState({
+    status: 'active',
+    priority: [],
+    dateRange: { start: null, end: null },
+    listIds: []
+  });
 
   // Filter tasks based on current filters
   const filteredTasks = tasks.filter(task => {
@@ -174,6 +210,50 @@ const HomePage = () => {
   const completedTasksCount = tasks.filter(t => t.completed).length;
   const totalTasksCount = tasks.length;
   const completionPercentage = totalTasksCount > 0 ? Math.round((completedTasksCount / totalTasksCount) * 100) : 0;
+
+  return {
+    filters,
+    setFilters,
+    filteredTasks,
+    completedTasksCount,
+    totalTasksCount,
+    completionPercentage
+  };
+};
+
+const HomePage = () => {
+  // Use custom hooks for different concerns
+  const {
+    tasks,
+    setTasks,
+    taskLists,
+    loading,
+    loadData,
+    handleQuickAdd,
+    handleTaskComplete,
+    handleTaskUpdate,
+    handleTaskDelete
+  } = useTaskOperations();
+
+  const { draggedTask, handleDragStart, handleDragEnd, handleDrop } = useDragAndDrop(tasks, setTasks);
+  
+  const { selectedTask, isModalOpen, openTaskModal, closeTaskModal, handleModalSave } = useTaskModal(
+    handleQuickAdd,
+    handleTaskUpdate
+  );
+
+  const {
+    filters,
+    setFilters,
+    filteredTasks,
+    completedTasksCount,
+    totalTasksCount,
+    completionPercentage
+  } = useTaskFilters(tasks);
+
+  useEffect(() => {
+    loadData();
+  }, []);
 
   if (loading) {
     return (
