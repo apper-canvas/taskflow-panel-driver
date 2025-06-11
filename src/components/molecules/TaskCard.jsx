@@ -71,9 +71,9 @@ const TaskCard = ({
         isOverdue ? 'border-red-300 bg-red-50' : ''
       }`}
     >
-      <div className="flex items-start space-x-4">
+<div className="flex items-start space-x-4">
         {/* Checkbox */}
-        <Button
+        <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={onComplete}
@@ -92,7 +92,7 @@ const TaskCard = ({
               <ApperIcon name="Check" size={14} />
             </motion.div>
           )}
-        </Button>
+        </motion.button>
 
         {/* Task Content */}
         <div className="flex-1 min-w-0">
@@ -141,24 +141,24 @@ const TaskCard = ({
               </div>
             </div>
 
-            {/* Action Buttons */}
+{/* Action Buttons */}
             <div className="flex items-center space-x-1 ml-4">
-              <Button
+              <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onEdit}
                 className="p-2 text-gray-400 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors"
               >
                 <ApperIcon name="Edit3" size={16} />
-              </Button>
-              <Button
+              </motion.button>
+              <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onDelete}
                 className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
               >
                 <ApperIcon name="Trash2" size={16} />
-              </Button>
+              </motion.button>
             </div>
           </div>
         </div>
