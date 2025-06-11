@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import ApperIcon from '@/components/ApperIcon';
 import Button from '@/components/atoms/Button';
 
-const TaskCard = ({ 
+const TaskCard = React.forwardRef(({ 
   task, 
   taskList, 
   onComplete, 
@@ -14,7 +14,7 @@ const TaskCard = ({
   onDragEnd,
   isDragged,
   index 
-}) => {
+}, ref) => {
   const priorityColors = {
     urgent: 'priority-urgent',
     high: 'priority-high',
@@ -53,8 +53,9 @@ const TaskCard = ({
     }
   };
 
-  return (
+return (
     <motion.div
+      ref={ref}
       layout
       variants={itemVariants}
       initial="hidden"
@@ -164,7 +165,9 @@ const TaskCard = ({
         </div>
       </div>
     </motion.div>
-  );
-};
+);
+});
+
+TaskCard.displayName = 'TaskCard';
 
 export default TaskCard;
