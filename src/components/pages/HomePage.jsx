@@ -11,7 +11,10 @@ import EmptyStateMessage from '@/components/organisms/EmptyStateMessage';
 import TaskHeader from '@/components/organisms/TaskHeader';
 import ApperIcon from '@/components/ApperIcon';
 import Button from '@/components/atoms/Button';
-
+import LoadingSpinner from '@/components/atoms/LoadingSpinner';
+import Badge from '@/components/atoms/Badge';
+import ColorDot from '@/components/atoms/ColorDot';
+import Label from '@/components/atoms/Label';
 // Custom hook for task operations
 const useTaskOperations = () => {
   const [tasks, setTasks] = useState([]);
@@ -255,10 +258,10 @@ const HomePage = () => {
     loadData();
   }, []);
 
-  if (loading) {
+if (loading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full"></div>
+        <LoadingSpinner />
       </div>
     );
   }
@@ -304,8 +307,8 @@ const HomePage = () => {
           className="w-80 bg-surface border-r border-gray-200 overflow-y-auto"
         >
           <div className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-display font-semibold text-gray-900">Lists</h2>
+<div className="flex items-center justify-between mb-6">
+              <Label variant="heading">Lists</Label>
               <Button
                 onClick={() => openTaskModal()}
                 className="p-2 text-gray-400 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors"
@@ -337,17 +340,14 @@ const HomePage = () => {
                         : [...prev.listIds, list.id]
                     }))}
                   >
-                    <div className="flex items-center justify-between">
+<div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
-                        <div 
-                          className="w-3 h-3 rounded-full"
-                          style={{ backgroundColor: list.color }}
-                        />
+                        <ColorDot color={list.color} />
                         <div>
-                          <h3 className="font-medium text-gray-900">{list.name}</h3>
-                          <p className="text-sm text-gray-500">
+                          <Label variant="subheading">{list.name}</Label>
+                          <Label variant="subtitle">
                             {completedCount}/{totalCount} tasks
-                          </p>
+                          </Label>
                         </div>
                       </div>
                       <ApperIcon name={list.icon} size={20} className="text-gray-400" />
