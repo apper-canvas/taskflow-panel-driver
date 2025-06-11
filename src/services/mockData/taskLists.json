@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "name": "Work Projects",
+    "color": "#5B47E0",
+    "icon": "Briefcase",
+    "taskCount": 3,
+    "order": 0
+  },
+  {
+    "id": "2",
+    "name": "Personal",
+    "color": "#22C55E",
+    "icon": "User",
+    "taskCount": 2,
+    "order": 1
+  },
+  {
+    "id": "3",
+    "name": "Health & Fitness",
+    "color": "#F59E0B",
+    "icon": "Heart",
+    "taskCount": 0,
+    "order": 2
+  },
+  {
+    "id": "4",
+    "name": "Learning",
+    "color": "#3B82F6",
+    "icon": "BookOpen",
+    "taskCount": 0,
+    "order": 3
+  }
+]

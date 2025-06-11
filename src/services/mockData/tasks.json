@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "title": "Review quarterly marketing report",
+    "description": "Analyze Q3 performance metrics and prepare presentation for stakeholders meeting next week",
+    "listId": "1",
+    "priority": "high",
+    "dueDate": "2024-01-15T00:00:00.000Z",
+    "completed": false,
+    "completedAt": null,
+    "createdAt": "2024-01-10T10:30:00.000Z",
+    "updatedAt": "2024-01-10T10:30:00.000Z"
+  },
+  {
+    "id": "2",
+    "title": "Schedule dentist appointment",
+    "description": "Book regular cleaning and checkup for next month",
+    "listId": "2",
+    "priority": "medium",
+    "dueDate": "2024-01-12T00:00:00.000Z",
+    "completed": false,
+    "completedAt": null,
+    "createdAt": "2024-01-09T14:15:00.000Z",
+    "updatedAt": "2024-01-09T14:15:00.000Z"
+  },
+  {
+    "id": "3",
+    "title": "Update project timeline",
+    "description": "Revise milestones based on client feedback and resource availability",
+    "listId": "1",
+    "priority": "urgent",
+    "dueDate": "2024-01-11T00:00:00.000Z",
+    "completed": false,
+    "completedAt": null,
+    "createdAt": "2024-01-08T09:45:00.000Z",
+    "updatedAt": "2024-01-08T09:45:00.000Z"
+  },
+  {
+    "id": "4",
+    "title": "Buy groceries for dinner party",
+    "description": "Get ingredients for pasta dish, wine, and dessert for Saturday dinner",
+    "listId": "2",
+    "priority": "medium",
+    "dueDate": "2024-01-13T00:00:00.000Z",
+    "completed": true,
+    "completedAt": "2024-01-10T16:20:00.000Z",
+    "createdAt": "2024-01-08T11:30:00.000Z",
+    "updatedAt": "2024-01-10T16:20:00.000Z"
+  },
+  {
+    "id": "5",
+    "title": "Respond to client emails",
+    "description": "Follow up on project proposals and address any concerns raised this week",
+    "listId": "1",
+    "priority": "high",
+    "dueDate": null,
+    "completed": false,
+    "completedAt": null,
+    "createdAt": "2024-01-09T08:00:00.000Z",
+    "updatedAt": "2024-01-09T08:00:00.000Z"
+  }
+]
