@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'react-toastify';
-import QuickAddBar from '../components/QuickAddBar';
-import TaskListContainer from '../components/TaskListContainer';
-import FilterBar from '../components/FilterBar';
-import TaskDetailModal from '../components/TaskDetailModal';
-import EmptyState from '../components/EmptyState';
-import ProgressRing from '../components/ProgressRing';
-import ApperIcon from '../components/ApperIcon';
-import { taskService, taskListService } from '../services';
+import { taskService, taskListService } from '@/services';
 
-const Home = () => {
+import QuickAddTaskForm from '@/components/organisms/QuickAddTaskForm';
+import TaskListDisplay from '@/components/organisms/TaskListDisplay';
+import TaskFilterBar from '@/components/organisms/TaskFilterBar';
+import TaskDetailModal from '@/components/organisms/TaskDetailModal';
+import EmptyStateMessage from '@/components/organisms/EmptyStateMessage';
+import TaskHeader from '@/components/organisms/TaskHeader';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
+
+const HomePage = () => {
   const [tasks, setTasks] = useState([]);
   const [taskLists, setTaskLists] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -169,9 +171,9 @@ const Home = () => {
   });
 
   // Calculate progress stats
-  const completedTasks = tasks.filter(t => t.completed).length;
-  const totalTasks = tasks.length;
-  const completionPercentage = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  const completedTasksCount = tasks.filter(t => t.completed).length;
+  const totalTasksCount = tasks.length;
+  const completionPercentage = totalTasksCount > 0 ? Math.round((completedTasksCount / totalTasksCount) * 100) : 0;
 
   if (loading) {
     return (
@@ -183,65 +185,38 @@ const Home = () => {
 
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-background">
-      {/* Header with Progress */}
-      <motion.header 
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        className="bg-surface border-b border-gray-200 px-6 py-4 flex-shrink-0"
-      >
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <div>
-              <h1 className="text-2xl font-display font-bold text-gray-900">TaskFlow</h1>
-              <p className="text-sm text-gray-600">
-                {completedTasks} of {totalTasks} tasks completed
-              </p>
-            </div>
-            <ProgressRing 
-              percentage={completionPercentage}
-              size={60}
-              strokeWidth={4}
-            />
-          </div>
-          <div className="text-right">
-            <div className="text-3xl font-display font-bold text-primary">
-              {completionPercentage}%
-            </div>
-            <div className="text-sm text-gray-500">Daily Progress</div>
-          </div>
-        </div>
-      </motion.header>
+      <TaskHeader 
+        completedTasks={completedTasksCount}
+        totalTasks={totalTasksCount}
+        completionPercentage={completionPercentage}
+      />
 
-      {/* Quick Add Bar */}
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.1 }}
         className="bg-surface border-b border-gray-200 px-6 py-4 flex-shrink-0"
       >
-        <QuickAddBar 
+        <QuickAddTaskForm 
           onAdd={handleQuickAdd}
           taskLists={taskLists}
         />
       </motion.div>
 
-      {/* Filter Bar */}
       <motion.div 
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.2 }}
         className="bg-surface border-b border-gray-200 px-6 py-3 flex-shrink-0"
       >
-        <FilterBar 
+        <TaskFilterBar 
           filters={filters}
           onFiltersChange={setFilters}
           taskLists={taskLists}
         />
       </motion.div>
 
-      {/* Main Content */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Sidebar - Task Lists */}
         <motion.aside 
           initial={{ x: -300, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
@@ -251,12 +226,12 @@ const Home = () => {
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-display font-semibold text-gray-900">Lists</h2>
-              <button
+              <Button
                 onClick={() => openTaskModal()}
                 className="p-2 text-gray-400 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors"
               >
                 <ApperIcon name="Plus" size={20} />
-              </button>
+              </Button>
             </div>
             
             <div className="space-y-2">
@@ -304,16 +279,15 @@ const Home = () => {
           </div>
         </motion.aside>
 
-        {/* Main Task Area */}
         <main className="flex-1 overflow-y-auto">
           <div className="p-6">
             {filteredTasks.length === 0 ? (
-              <EmptyState 
+              <EmptyStateMessage
                 onCreateTask={() => openTaskModal()}
                 hasFilters={filters.status !== 'all' || filters.priority.length > 0 || filters.listIds.length > 0}
               />
             ) : (
-              <TaskListContainer
+              <TaskListDisplay
                 tasks={filteredTasks}
                 taskLists={taskLists}
                 onTaskComplete={handleTaskComplete}
@@ -328,7 +302,6 @@ const Home = () => {
         </main>
       </div>
 
-      {/* Task Detail Modal */}
       <AnimatePresence>
         {isModalOpen && (
           <TaskDetailModal
@@ -343,4 +316,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default HomePage;

@@ -1,7 +1,9 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
-const FilterBar = ({ filters, onFiltersChange, taskLists }) => {
+const TaskFilterBar = ({ filters, onFiltersChange, taskLists }) => {
   const statusOptions = [
     { value: 'all', label: 'All Tasks', icon: 'List' },
     { value: 'active', label: 'Active', icon: 'Circle' },
@@ -52,10 +54,8 @@ const FilterBar = ({ filters, onFiltersChange, taskLists }) => {
         {/* Status Filter */}
         <div className="flex items-center space-x-2">
           {statusOptions.map(option => (
-            <motion.button
+            <Button
               key={option.value}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
               onClick={() => onFiltersChange({ ...filters, status: option.value })}
               className={`flex items-center space-x-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
                 filters.status === option.value
@@ -65,7 +65,7 @@ const FilterBar = ({ filters, onFiltersChange, taskLists }) => {
             >
               <ApperIcon name={option.icon} size={16} />
               <span>{option.label}</span>
-            </motion.button>
+            </Button>
           ))}
         </div>
 
@@ -74,10 +74,8 @@ const FilterBar = ({ filters, onFiltersChange, taskLists }) => {
           <span className="text-sm font-medium text-gray-700">Priority:</span>
           <div className="flex space-x-1">
             {priorityOptions.map(option => (
-              <motion.button
+              <Button
                 key={option.value}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
                 onClick={() => togglePriority(option.value)}
                 className={`w-6 h-6 rounded-full border-2 transition-all ${option.color} ${
                   filters.priority.includes(option.value)
@@ -85,6 +83,8 @@ const FilterBar = ({ filters, onFiltersChange, taskLists }) => {
                     : 'border-gray-300 opacity-60'
                 }`}
                 title={`${option.label} Priority`}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
               />
             ))}
           </div>
@@ -96,10 +96,8 @@ const FilterBar = ({ filters, onFiltersChange, taskLists }) => {
             <span className="text-sm font-medium text-gray-700">Lists:</span>
             <div className="flex space-x-1">
               {taskLists.slice(0, 4).map(list => (
-                <motion.button
+                <Button
                   key={list.id}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
                   onClick={() => toggleList(list.id)}
                   className={`px-2 py-1 rounded text-xs font-medium transition-all ${
                     filters.listIds.includes(list.id)
@@ -111,7 +109,7 @@ const FilterBar = ({ filters, onFiltersChange, taskLists }) => {
                   }}
                 >
                   {list.name}
-                </motion.button>
+                </Button>
               ))}
             </div>
           </div>
@@ -120,20 +118,18 @@ const FilterBar = ({ filters, onFiltersChange, taskLists }) => {
 
       {/* Clear Filters */}
       {hasActiveFilters && (
-        <motion.button
+        <Button
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
           onClick={clearAllFilters}
           className="flex items-center space-x-1 px-3 py-1.5 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-lg transition-all"
         >
           <ApperIcon name="X" size={14} />
           <span>Clear</span>
-        </motion.button>
+        </Button>
       )}
     </div>
   );
 };
 
-export default FilterBar;
+export default TaskFilterBar;

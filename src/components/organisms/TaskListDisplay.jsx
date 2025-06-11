@@ -1,7 +1,8 @@
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import TaskItem from './TaskItem';
+import TaskCard from '@/components/molecules/TaskCard';
 
-const TaskListContainer = ({ 
+const TaskListDisplay = ({ 
   tasks, 
   taskLists, 
   onTaskComplete, 
@@ -11,7 +12,6 @@ const TaskListContainer = ({
   onDragEnd,
   draggedTask
 }) => {
-  // Group tasks by completion status for better organization
   const activeTasks = tasks.filter(task => !task.completed);
   const completedTasks = tasks.filter(task => task.completed);
 
@@ -25,7 +25,7 @@ const TaskListContainer = ({
     }
   };
 
-  const TaskSection = ({ title, tasks: sectionTasks, icon, count }) => (
+  const TaskSection = ({ title, tasks: sectionTasks, count }) => (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -48,7 +48,7 @@ const TaskListContainer = ({
       >
         <AnimatePresence mode="popLayout">
           {sectionTasks.map((task, index) => (
-            <TaskItem
+            <TaskCard
               key={task.id}
               task={task}
               taskList={taskLists.find(list => list.id === task.listId)}
@@ -72,7 +72,6 @@ const TaskListContainer = ({
         <TaskSection
           title="Active Tasks"
           tasks={activeTasks}
-          icon="Circle"
           count={activeTasks.length}
         />
       )}
@@ -81,7 +80,6 @@ const TaskListContainer = ({
         <TaskSection
           title="Completed Tasks"
           tasks={completedTasks}
-          icon="CheckCircle"
           count={completedTasks.length}
         />
       )}
@@ -89,4 +87,4 @@ const TaskListContainer = ({
   );
 };
 
-export default TaskListContainer;
+export default TaskListDisplay;

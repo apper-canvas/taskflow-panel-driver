@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import Layout from './Layout';
-import Home from './pages/Home';
-import NotFound from './pages/NotFound';
+import HomePage from '@/components/pages/HomePage';
+import NotFoundPage from '@/components/pages/NotFoundPage';
 import { routeArray } from './config/routes';
 
 function App() {
@@ -16,10 +16,10 @@ function App() {
               <Route 
                 key={route.id} 
                 path={route.path} 
-                element={<route.component />} 
+element={<route.component />} 
               />
             ))}
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
         </Routes>
         

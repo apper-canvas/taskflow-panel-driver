@@ -1,7 +1,9 @@
+import React from 'react';
 import { motion } from 'framer-motion';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
-const EmptyState = ({ onCreateTask, hasFilters = false }) => {
+const EmptyStateMessage = ({ onCreateTask, hasFilters = false }) => {
   if (hasFilters) {
     return (
       <motion.div
@@ -49,15 +51,13 @@ const EmptyState = ({ onCreateTask, hasFilters = false }) => {
         and watch your productivity soar!
       </p>
       
-      <motion.button
-        whileHover={{ scale: 1.05, y: -2 }}
-        whileTap={{ scale: 0.95 }}
+      <Button
         onClick={onCreateTask}
         className="inline-flex items-center px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-all shadow-lg hover:shadow-xl"
       >
         <ApperIcon name="Plus" size={20} className="mr-2" />
         Create Your First Task
-      </motion.button>
+      </Button>
       
       <div className="mt-8 text-sm text-gray-500">
         <p>💡 Pro tip: Use the quick add bar above for fast task entry</p>
@@ -66,4 +66,4 @@ const EmptyState = ({ onCreateTask, hasFilters = false }) => {
   );
 };
 
-export default EmptyState;
+export default EmptyStateMessage;

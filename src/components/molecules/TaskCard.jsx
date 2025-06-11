@@ -1,8 +1,10 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Button from '@/components/atoms/Button';
 
-const TaskItem = ({ 
+const TaskCard = ({ 
   task, 
   taskList, 
   onComplete, 
@@ -71,7 +73,7 @@ const TaskItem = ({
     >
       <div className="flex items-start space-x-4">
         {/* Checkbox */}
-        <motion.button
+        <Button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={onComplete}
@@ -90,7 +92,7 @@ const TaskItem = ({
               <ApperIcon name="Check" size={14} />
             </motion.div>
           )}
-        </motion.button>
+        </Button>
 
         {/* Task Content */}
         <div className="flex-1 min-w-0">
@@ -141,22 +143,22 @@ const TaskItem = ({
 
             {/* Action Buttons */}
             <div className="flex items-center space-x-1 ml-4">
-              <motion.button
+              <Button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onEdit}
                 className="p-2 text-gray-400 hover:text-primary hover:bg-gray-50 rounded-lg transition-colors"
               >
                 <ApperIcon name="Edit3" size={16} />
-              </motion.button>
-              <motion.button
+              </Button>
+              <Button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onDelete}
                 className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
               >
                 <ApperIcon name="Trash2" size={16} />
-              </motion.button>
+              </Button>
             </div>
           </div>
         </div>
@@ -165,4 +167,4 @@ const TaskItem = ({
   );
 };
 
-export default TaskItem;
+export default TaskCard;

@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { format } from 'date-fns';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import FormField from '@/components/molecules/FormField';
+import Button from '@/components/atoms/Button';
 
 const TaskDetailModal = ({ task, taskLists, onSave, onClose }) => {
   const [formData, setFormData] = useState({
@@ -21,6 +23,14 @@ const TaskDetailModal = ({ task, taskLists, onSave, onClose }) => {
         listId: task.listId || taskLists[0]?.id || '',
         dueDate: task.dueDate ? format(new Date(task.dueDate), 'yyyy-MM-dd') : ''
       });
+    } else {
+        setFormData({
+            title: '',
+            description: '',
+            priority: 'medium',
+            listId: taskLists[0]?.id || '',
+            dueDate: ''
+        });
     }
   }, [task, taskLists]);
 
@@ -69,47 +79,38 @@ const TaskDetailModal = ({ task, taskLists, onSave, onClose }) => {
             <h2 className="text-xl font-display font-semibold text-gray-900">
               {task ? 'Edit Task' : 'Create New Task'}
             </h2>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            <Button
               onClick={onClose}
               className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
             >
               <ApperIcon name="X" size={20} />
-            </motion.button>
+            </Button>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             {/* Title */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Task Title *
-              </label>
-              <input
-                type="text"
-                value={formData.title}
-                onChange={(e) => handleChange('title', e.target.value)}
-                placeholder="Enter task title..."
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-                required
-                autoFocus
-              />
-            </div>
+            <FormField
+              label="Task Title"
+              type="text"
+              value={formData.title}
+              onChange={(e) => handleChange('title', e.target.value)}
+              placeholder="Enter task title..."
+              required
+              autoFocus
+            />
 
             {/* Description */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Description
-              </label>
-              <textarea
-                value={formData.description}
-                onChange={(e) => handleChange('description', e.target.value)}
-                placeholder="Add a description..."
-                rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all resize-none"
-              />
-            </div>
+            <FormField
+              label="Description"
+              type="textarea"
+              value={formData.description}
+              onChange={(e) => handleChange('description', e.target.value)}
+              placeholder="Add a description..."
+              rows={3}
+            />
 
             {/* Priority */}
             <div>
@@ -118,74 +119,61 @@ const TaskDetailModal = ({ task, taskLists, onSave, onClose }) => {
               </label>
               <div className="grid grid-cols-2 gap-2">
                 {priorityOptions.map(option => (
-                  <motion.button
+                  <Button
                     key={option.value}
                     type="button"
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
                     onClick={() => handleChange('priority', option.value)}
                     className={`flex items-center space-x-2 p-3 rounded-lg border-2 transition-all ${
                       formData.priority === option.value
                         ? 'border-primary bg-primary/5'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     <div className={`w-3 h-3 rounded-full ${option.color}`} />
                     <ApperIcon name={option.icon} size={16} className="text-gray-600" />
                     <span className="font-medium text-gray-900">{option.label}</span>
-                  </motion.button>
+                  </Button>
                 ))}
               </div>
             </div>
 
             {/* List */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                List
-              </label>
-              <select
-                value={formData.listId}
-                onChange={(e) => handleChange('listId', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-              >
-                {taskLists.map(list => (
-                  <option key={list.id} value={list.id}>{list.name}</option>
-                ))}
-              </select>
-            </div>
+            <FormField
+              label="List"
+              type="select"
+              value={formData.listId}
+              onChange={(e) => handleChange('listId', e.target.value)}
+            >
+              {taskLists.map(list => (
+                <option key={list.id} value={list.id}>{list.name}</option>
+              ))}
+            </FormField>
 
             {/* Due Date */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Due Date
-              </label>
-              <input
-                type="date"
-                value={formData.dueDate}
-                onChange={(e) => handleChange('dueDate', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all"
-              />
-            </div>
+            <FormField
+              label="Due Date"
+              type="date"
+              value={formData.dueDate}
+              onChange={(e) => handleChange('dueDate', e.target.value)}
+            />
 
             {/* Actions */}
             <div className="flex items-center justify-end space-x-3 pt-4">
-              <motion.button
+              <Button
                 type="button"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 onClick={onClose}
                 className="px-4 py-2 text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg font-medium transition-colors"
               >
                 Cancel
-              </motion.button>
-              <motion.button
+              </Button>
+              <Button
                 type="submit"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
                 className="px-4 py-2 bg-primary text-white hover:bg-primary/90 rounded-lg font-medium transition-colors"
               >
                 {task ? 'Update Task' : 'Create Task'}
-              </motion.button>
+              </Button>
             </div>
           </form>
         </div>

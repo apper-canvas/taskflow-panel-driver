@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import ApperIcon from './ApperIcon';
+import ApperIcon from '@/components/ApperIcon';
+import Input from '@/components/atoms/Input';
+import Select from '@/components/atoms/Select';
+import Button from '@/components/atoms/Button';
 
-const QuickAddBar = ({ onAdd, taskLists }) => {
+const QuickAddTaskForm = ({ onAdd, taskLists }) => {
   const [title, setTitle] = useState('');
   const [isExpanded, setIsExpanded] = useState(false);
   const [priority, setPriority] = useState('medium');
@@ -12,7 +15,6 @@ const QuickAddBar = ({ onAdd, taskLists }) => {
     e.preventDefault();
     if (!title.trim()) return;
 
-    // Smart date parsing
     let dueDate = null;
     const dateMatches = title.match(/\b(today|tomorrow|next week)\b/i);
     if (dateMatches) {
@@ -58,14 +60,14 @@ const QuickAddBar = ({ onAdd, taskLists }) => {
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="relative">
-          <input
+          <Input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             onFocus={() => setIsExpanded(true)}
             onKeyDown={handleKeyDown}
             placeholder="Add a new task... (Try 'Review report tomorrow' or 'Call client today')"
-            className="w-full px-4 py-3 pl-12 pr-20 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent outline-none transition-all text-gray-900 placeholder-gray-500"
+            className="pl-12 pr-20"
           />
           <ApperIcon 
             name="Plus" 
@@ -74,14 +76,14 @@ const QuickAddBar = ({ onAdd, taskLists }) => {
           />
           
           {title && (
-            <motion.button
+            <Button
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               type="submit"
               className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-primary text-white rounded-lg hover:bg-primary/90 transition-colors"
             >
               <ApperIcon name="ArrowRight" size={16} />
-            </motion.button>
+            </Button>
           )}
         </div>
 
@@ -93,29 +95,27 @@ const QuickAddBar = ({ onAdd, taskLists }) => {
           <div className="flex items-center space-x-4 pt-2">
             <div className="flex items-center space-x-2">
               <span className="text-sm font-medium text-gray-700">Priority:</span>
-              <select
+              <Select
                 value={priority}
                 onChange={(e) => setPriority(e.target.value)}
-                className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
               >
                 <option value="low">Low</option>
                 <option value="medium">Medium</option>
                 <option value="high">High</option>
                 <option value="urgent">Urgent</option>
-              </select>
+              </Select>
             </div>
 
             <div className="flex items-center space-x-2">
               <span className="text-sm font-medium text-gray-700">List:</span>
-              <select
+              <Select
                 value={listId}
                 onChange={(e) => setListId(e.target.value)}
-                className="px-3 py-1 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary focus:border-transparent outline-none"
               >
                 {taskLists.map(list => (
                   <option key={list.id} value={list.id}>{list.name}</option>
                 ))}
-              </select>
+              </Select>
             </div>
 
             <div className="text-xs text-gray-500">
@@ -128,4 +128,4 @@ const QuickAddBar = ({ onAdd, taskLists }) => {
   );
 };
 
-export default QuickAddBar;
+export default QuickAddTaskForm;
