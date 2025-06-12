@@ -24,15 +24,16 @@ const useTaskOperations = () => {
   const loadData = async () => {
     setLoading(true);
     try {
-      const [tasksData, listsData] = await Promise.all([
+const [tasksData, listsData] = await Promise.all([
         taskService.getAll(),
         taskListService.getAll()
       ]);
       setTasks(tasksData);
       setTaskLists(listsData);
     } catch (error) {
-      toast.error('Failed to load data');
-    } finally {
+      console.error('Failed to load data:', error);
+      toast.error('Failed to load data. Please check your connection and try again.');
+} finally {
       setLoading(false);
     }
   };
@@ -256,9 +257,9 @@ const HomePage = () => {
 
   useEffect(() => {
     loadData();
-  }, []);
+}, []);
 
-if (loading) {
+  if (loading) {
     return (
       <div className="h-full flex items-center justify-center">
         <LoadingSpinner />
@@ -305,9 +306,9 @@ if (loading) {
           animate={{ x: 0, opacity: 1 }}
           transition={{ delay: 0.3 }}
           className="w-80 bg-surface border-r border-gray-200 overflow-y-auto"
-        >
+>
           <div className="p-6">
-<div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-6">
               <Label variant="heading">Lists</Label>
               <Button
                 onClick={() => openTaskModal()}
@@ -338,9 +339,9 @@ if (loading) {
                       listIds: prev.listIds.includes(list.id) 
                         ? prev.listIds.filter(id => id !== list.id)
                         : [...prev.listIds, list.id]
-                    }))}
+}))}
                   >
-<div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-3">
                         <ColorDot color={list.color} />
                         <div>
